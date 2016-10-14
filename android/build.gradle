@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "23.0.1"
-    compileSdkVersion 23
+    buildToolsVersion "20"
+    compileSdkVersion 20
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.packtpub.libgdx.canyonbunny"
         minSdkVersion 8
-        targetSdkVersion 23
+        targetSdkVersion 20
     }
 }
 
