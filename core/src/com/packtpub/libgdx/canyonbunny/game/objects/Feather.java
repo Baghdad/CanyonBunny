@@ -6,28 +6,29 @@ import com.packtpub.libgdx.canyonbunny.game.Assets;
 
 /**
  * Author: Kirill Bogdanov
- * Created on 14.10.2016.
+ * Created on 17.10.2016.
  */
-public class WaterOverlay extends AbstractGameObject {
-    private TextureRegion regWaterOverlay;
-    private float length;
+public class Feather extends AbstractGameObject {
+    private TextureRegion regFeather;
+    public boolean collected;
 
-    public WaterOverlay(float length) {
-        this.length = length;
+    public Feather() {
         init();
     }
 
     private void init() {
-        dimension.set(length * 10, 3);
-        regWaterOverlay = Assets.instance.levelDecoration.waterOverlay;
-        origin.x = -dimension.x / 2;
+        dimension.set(0.5f, 0.5f);
+        regFeather = Assets.instance.feather.feather;
+        // Set bounding box for collision detection
+        bounds.set(0, 0, dimension.x, dimension.y);
+        collected = false;
     }
 
-    @Override
     public void render(SpriteBatch batch) {
-        TextureRegion reg = regWaterOverlay;
+        if (collected) return;
+        TextureRegion reg = regFeather;
         batch.draw(reg.getTexture(),
-                position.x + origin.x, position.y + origin.y,
+                position.x, position.y,
                 origin.x, origin.y,
                 dimension.x, dimension.y,
                 scale.x, scale.y,
@@ -35,5 +36,9 @@ public class WaterOverlay extends AbstractGameObject {
                 reg.getRegionX(), reg.getRegionY(),
                 reg.getRegionWidth(), reg.getRegionHeight(),
                 false, false);
+    }
+
+    public int getScore() {
+        return 250;
     }
 }

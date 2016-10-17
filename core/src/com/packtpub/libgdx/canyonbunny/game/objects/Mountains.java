@@ -29,7 +29,7 @@ public class Mountains extends AbstractGameObject {
     }
 
     private void drawMountain(SpriteBatch batch, float offsetX, float offsetY, float tintColor) {
-        TextureRegion reg = null;
+        TextureRegion reg;
         batch.setColor(tintColor, tintColor, tintColor, 1);
         float xRel = dimension.x * offsetX;
         float yRel = dimension.y * offsetY;

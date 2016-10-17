@@ -27,6 +27,8 @@ public class Rock extends AbstractGameObject {
 
     public void setLength(int length) {
         this.length = length;
+        // Update bounding box for collision detection
+        bounds.set(0, 0, dimension.x * length, dimension.y);
     }
 
     public void increaseLength(int amount) {
@@ -35,7 +37,7 @@ public class Rock extends AbstractGameObject {
 
     @Override
     public void render(SpriteBatch batch) {
-        TextureRegion reg = null;
+        TextureRegion reg;
         float relX = 0;
         float relY = 0;
         // Draw left edge
