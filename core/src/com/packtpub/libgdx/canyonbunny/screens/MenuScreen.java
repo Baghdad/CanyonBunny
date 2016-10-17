@@ -64,12 +64,12 @@ public class MenuScreen extends AbstractGameScreen {
         }
         stage.act(deltaTime);
         stage.draw();
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

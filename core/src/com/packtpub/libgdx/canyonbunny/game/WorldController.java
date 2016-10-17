@@ -109,21 +109,22 @@ public class WorldController extends InputAdapter {
             if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
                 cameraHelper.setPosition(0, 0);
             }
-        }
-        // Camera Controls (zoom)
-        float camZoomSpeed = 1 * deltaTime;
-        float camZoomSpeedAccelerationFactor = 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            camZoomSpeed *= camZoomSpeedAccelerationFactor;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
-            cameraHelper.addZoom(camZoomSpeed);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
-            cameraHelper.addZoom(-camZoomSpeed);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.SLASH)) {
-            cameraHelper.setZoom(1);
+
+            // Camera Controls (zoom)
+            float camZoomSpeed = 1 * deltaTime;
+            float camZoomSpeedAccelerationFactor = 5;
+            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                camZoomSpeed *= camZoomSpeedAccelerationFactor;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
+                cameraHelper.addZoom(camZoomSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
+                cameraHelper.addZoom(-camZoomSpeed);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SLASH)) {
+                cameraHelper.setZoom(1);
+            }
         }
     }
 
@@ -234,10 +235,7 @@ public class WorldController extends InputAdapter {
                 }
             }
             // Bunny Jump
-            if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE))
-                level.bunnyHead.setJumping(true);
-        } else {
-            level.bunnyHead.setJumping(false);
+            level.bunnyHead.setJumping(Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE));
         }
     }
 
