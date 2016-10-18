@@ -1,9 +1,13 @@
 package com.packtpub.libgdx.canyonbunny.game.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.packtpub.libgdx.canyonbunny.game.Assets;
+import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
+import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 
 /**
  * Author: Kirill Bogdanov
@@ -27,6 +31,7 @@ public class BunnyHead extends AbstractGameObject {
     public JUMP_STATE jumpState;
     public boolean hasFeatherPowerup;
     public float timeLeftFeatherPowerup;
+    public ParticleEffect dustParticles = new ParticleEffect();
 
     public BunnyHead() {
         init();
@@ -51,6 +56,8 @@ public class BunnyHead extends AbstractGameObject {
         // Power-ups
         hasFeatherPowerup = false;
         timeLeftFeatherPowerup = 0;
+        // Particles
+        dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
     }
 
     public void setJumping(boolean jumpKeyPressed) {
@@ -101,6 +108,7 @@ public class BunnyHead extends AbstractGameObject {
                 setFeatherPowerup(false);
             }
         }
+        dustParticles.update(deltaTime);
     }
 
     @Override
@@ -129,18 +137,23 @@ public class BunnyHead extends AbstractGameObject {
                     velocity.y = terminalVelocity.y;
                 }
         }
-        if (jumpState != JUMP_STATE.GROUNDED)
+        if (jumpState != JUMP_STATE.GROUNDED) {
+            dustParticles.allowCompletion();
             super.updateMotionY(deltaTime);
+        }
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        TextureRegion reg = null;
+        // Draw Particles
+        dustParticles.draw(batch);
+        // Apply Skin Color
+        batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
         // Set special color when game object has a feather power-up
         if (hasFeatherPowerup)
             batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
         // Draw image
-        reg = regHead;
+        TextureRegion reg = regHead;
         batch.draw(reg.getTexture(),
                 position.x, position.y,
                 origin.x, origin.y,

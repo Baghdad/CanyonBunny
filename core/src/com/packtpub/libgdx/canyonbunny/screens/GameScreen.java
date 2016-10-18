@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.packtpub.libgdx.canyonbunny.game.WorldController;
 import com.packtpub.libgdx.canyonbunny.game.WorldRenderer;
+import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 
 /**
  * Author: Kirill Bogdanov
@@ -43,6 +44,7 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
+        GamePreferences.instance.load();
         worldController = new WorldController(game);
         worldRenderer = new WorldRenderer(worldController);
         Gdx.input.setCatchBackKey(true);

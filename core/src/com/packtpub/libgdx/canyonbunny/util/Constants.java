@@ -14,7 +14,7 @@ public class Constants {
     // GUI Height
     public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
     // Location of description file for texture atlas
-    public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack";
+    public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.atlas";
     // Location of image file for level 01
     public static final String LEVEL_01 = "levels/level-01.png";
     // Amount of extra lives at level start
@@ -28,4 +28,5 @@ public class Constants {
     // Location of description file for skins
     public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
     public static final String SKIN_CANYONBUNNY_UI = "images/canyonbunny-ui.json";
+    public static final String PREFERENCES = "settings.prefs";
 }
