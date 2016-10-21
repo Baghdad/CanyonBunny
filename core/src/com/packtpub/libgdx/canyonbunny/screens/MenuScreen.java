@@ -1,7 +1,7 @@
 package com.packtpub.libgdx.canyonbunny.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.packtpub.libgdx.canyonbunny.game.Assets;
+import com.packtpub.libgdx.canyonbunny.screens.transitions.ScreenTransition;
+import com.packtpub.libgdx.canyonbunny.screens.transitions.ScreenTransitionFade;
 import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
@@ -53,7 +56,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     private Skin skinLibgdx;
 
-    public MenuScreen(Game game) {
+    public MenuScreen(DirectedGame game) {
         super(game);
     }
 
@@ -80,8 +83,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(new StretchViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
         rebuildStage();
     }
 
@@ -204,7 +206,8 @@ public class MenuScreen extends AbstractGameScreen {
     }
 
     private void onPlayClicked() {
-        game.setScreen(new GameScreen(game));
+        ScreenTransition transition = ScreenTransitionFade.init(0.75f);
+        game.setScreen(new GameScreen(game), transition);
     }
 
     private void onOptionsClicked() {
@@ -351,5 +354,10 @@ public class MenuScreen extends AbstractGameScreen {
             }
         });
         return tbl;
+    }
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return stage;
     }
 }
