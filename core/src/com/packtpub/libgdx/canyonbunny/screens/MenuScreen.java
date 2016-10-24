@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.packtpub.libgdx.canyonbunny.game.Assets;
 import com.packtpub.libgdx.canyonbunny.screens.transitions.ScreenTransition;
 import com.packtpub.libgdx.canyonbunny.screens.transitions.ScreenTransitionFade;
+import com.packtpub.libgdx.canyonbunny.util.AudioManager;
 import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
@@ -248,12 +249,14 @@ public class MenuScreen extends AbstractGameScreen {
     private void onSaveClicked() {
         saveSettings();
         onCancelClicked();
+        AudioManager.instance.onSettingsUpdated();
     }
 
     private void onCancelClicked() {
         btnMenuPlay.setVisible(true);
         btnMenuOptions.setVisible(true);
         winOptions.setVisible(false);
+        AudioManager.instance.onSettingsUpdated();
     }
 
     private Table buildOptWinAudioSettings() {
@@ -322,8 +325,7 @@ public class MenuScreen extends AbstractGameScreen {
     private Table buildOptWinButtons() {
         Table tbl = new Table();
         // + Separator
-        Label lbl = null;
-        lbl = new Label("", skinLibgdx);
+        Label lbl = new Label("", skinLibgdx);
         lbl.setColor(0.75f, 0.75f, 0.75f, 1);
         lbl.setStyle(new LabelStyle(lbl.getStyle()));
         lbl.getStyle().background = skinLibgdx.newDrawable("white");
