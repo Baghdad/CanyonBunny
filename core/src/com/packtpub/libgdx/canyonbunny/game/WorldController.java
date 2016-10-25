@@ -3,6 +3,7 @@ package com.packtpub.libgdx.canyonbunny.game;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -41,6 +42,7 @@ public class WorldController extends InputAdapter implements Disposable {
 
     private boolean goalReached;
     public World b2world;
+    private boolean accelerometerAvailable;
 
     public WorldController(DirectedGame game) {
         this.game = game;
@@ -48,6 +50,7 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void init() {
+        accelerometerAvailable = Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer);
         cameraHelper = new CameraHelper();
         lives = Constants.LIVES_START;
         livesVisual = lives;
@@ -244,8 +247,24 @@ public class WorldController extends InputAdapter implements Disposable {
             } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
                 level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
             } else {
+                // Use accelerometer for movement if available
+                if (accelerometerAvailable) {
+                    // normalize accelerometer values from [-10, 10] to [-1, 1]
+                    // which translate to rotations of [-90, 90] degrees
+                    float amount = Gdx.input.getAccelerometerY() / 10.0f;
+                    amount *= 90.0f;
+                    // is angle of rotation inside dead zone?
+                    if (Math.abs(amount) < Constants.ACCEL_ANGLE_DEAD_ZONE) {
+                        amount = 0;
+                    } else {
+                        // use the defined max angle of rotation instead of
+                        // the full 90 degrees for maximum velocity
+                        amount /= Constants.ACCEL_MAX_ANGLE_MAX_MOVEMENT;
+                    }
+                    level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x * amount;
+                }
                 // Execute auto-forward movement on non-desktop platform
-                if (Gdx.app.getType() != ApplicationType.Desktop) {
+                else if (Gdx.app.getType() != ApplicationType.Desktop) {
                     level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
                 }
             }
